@@ -67,6 +67,8 @@ struct vec3d
 struct triangle
 {
 	vec3d p[3];
+
+	olc::Pixel col;
 };
 
 struct mesh
@@ -107,6 +109,12 @@ private:
 		{
 			o.x /= w; o.y /= w; o.z /= w;
 		}
+	}
+	
+	olc::Pixel GetColour(float lum) {
+
+		int nValue = (int)(std::max(lum, 0.20f) * 255.0f);
+		return olc::Pixel(nValue, nValue, nValue);
 	}
 
 public:
@@ -208,7 +216,6 @@ public:
 			line1.y = triTranslated.p[1].y - triTranslated.p[0].y;
 			line1.z = triTranslated.p[1].z - triTranslated.p[0].z;
 
-
 			line2.x = triTranslated.p[2].x - triTranslated.p[0].x;
 			line2.y = triTranslated.p[2].y - triTranslated.p[0].y;
 			line2.z = triTranslated.p[2].z - triTranslated.p[0].z;
@@ -220,12 +227,24 @@ public:
 			float l = sqrtf(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
 			normal.x /= l; normal.y /= l; normal.z /= l;
 
-			if (normal.z < 0)
+			if (normal.x * (triTranslated.p[0].x - vCamera.x) + 
+				normal.y * (triTranslated.p[0].y - vCamera.y) +
+				normal.z * (triTranslated.p[0].z - vCamera.z) < 0.0f)
 			{
+				// lighting
+				vec3d light_direction = { 0.0f, 0.0f, -1.0f };
+				float l = sqrtf(light_direction.x * light_direction.x + light_direction.y * light_direction.y + light_direction.z * light_direction.z);
+				light_direction.x /= l; light_direction.y /= l; light_direction.z /= l;
+				
+				float dp = normal.x * light_direction.x + normal.y * light_direction.y + normal.z * light_direction.z;
+
+				triTranslated.col = GetColour(dp);
+
 				// Project triangles from 3D --> 2D
 				MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], matProj);
 				MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], matProj);
 				MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], matProj);
+				triProjected.col = triTranslated.col;
 
 				// Scale into view
 				triProjected.p[0].x += 1.0f; triProjected.p[0].y += 1.0f;
@@ -239,16 +258,36 @@ public:
 				triProjected.p[2].y *= 0.5f * (float)ScreenHeight();
 
 				// Rasterize triangle
+				FillTriangle(triProjected.p[0].x, triProjected.p[0].y,
+					triProjected.p[1].x, triProjected.p[1].y,
+					triProjected.p[2].x, triProjected.p[2].y,
+					triProjected.col);
+
 				DrawTriangle(triProjected.p[0].x, triProjected.p[0].y,
 					triProjected.p[1].x, triProjected.p[1].y,
 					triProjected.p[2].x, triProjected.p[2].y,
-					olc::WHITE);
+					olc::BLACK);
 			}
-			
-
 		}
+
 		return true;
 	}
+
+	/*olc::Pixel CheckAngle(float fElapsedTime)
+	{
+		
+		int red = static_cast<int>(fElapsedTime * 100) % 255;
+		if (red > 128)
+		{
+			red = 128-(red - 128);
+		}
+		int green = ~red + 255;
+	
+		std::cout << red << " " << green << std::endl;
+		//uint8_t red = 255 * var;
+		olc::Pixel color(red, -green, 0);
+		return color;
+	}*/
 };
 
 
