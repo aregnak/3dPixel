@@ -46,17 +46,11 @@ Discord: https://discord.gg/WhwHUMV
 Last Updated: 14/07/2018
 */
 
-
-/* Alterations Joseph21 - 2022-07-19
- *   - removed "using namespace std" and added explicit scope resolution operator where needed
- * Port to PixelGameEngine - 2022-07-18
- *   - see cheat sheet for generic adaptations needed for port
- *   - no specific points
- */
-
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
-//using namespace std;
+#include <fstream>
+#include <strstream>
+#include <algorithm>
 
 
 struct vec3d
@@ -74,6 +68,42 @@ struct triangle
 struct mesh
 {
 	std::vector<triangle> tris;
+
+	bool LoadFromObjectFile(std::string sFilename)
+	{
+		std::ifstream f(sFilename);
+		if (!f.is_open())
+			return false;
+
+		std::vector<vec3d> verts;
+
+		while (!f.eof())
+		{
+			char line[128];
+			f.getline(line, 128);
+
+			std::strstream s;
+			s << line;
+
+			char temp;
+
+			if (line[0] == 'v')
+			{
+				vec3d v;
+				s >> temp >> v.x >> v.y >> v.z; 
+				verts.push_back(v);
+			}
+			
+			if (line[0] == 'f')
+			{
+				int f[3];
+				s >> temp >> f[0] >> f[1] >> f[2];
+
+				tris.push_back({ verts[f[0] - 1], verts[f[1] - 1], verts[f[2] - 1] });
+			}
+		}
+		return true;
+	}
 };
 
 struct mat4x4
@@ -120,33 +150,35 @@ private:
 public:
 	bool OnUserCreate() override
 	{
-		meshCube.tris = {
+		//meshCube.tris = {
 
-		// SOUTH
-		{ 0.0f, 0.0f, 0.0f,    0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 0.0f,    1.0f, 1.0f, 0.0f,    1.0f, 0.0f, 0.0f },
+		//// SOUTH
+		//{ 0.0f, 0.0f, 0.0f,    0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 0.0f },
+		//{ 0.0f, 0.0f, 0.0f,    1.0f, 1.0f, 0.0f,    1.0f, 0.0f, 0.0f },
 
-		// EAST
-		{ 1.0f, 0.0f, 0.0f,    1.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f },
-		{ 1.0f, 0.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 1.0f },
+		//// EAST
+		//{ 1.0f, 0.0f, 0.0f,    1.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f },
+		//{ 1.0f, 0.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 1.0f },
 
-		// NORTH
-		{ 1.0f, 0.0f, 1.0f,    1.0f, 1.0f, 1.0f,    0.0f, 1.0f, 1.0f },
-		{ 1.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,    0.0f, 0.0f, 1.0f },
+		//// NORTH
+		//{ 1.0f, 0.0f, 1.0f,    1.0f, 1.0f, 1.0f,    0.0f, 1.0f, 1.0f },
+		//{ 1.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,    0.0f, 0.0f, 1.0f },
 
-		// WEST
-		{ 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,    0.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 0.0f,    0.0f, 0.0f, 0.0f },
+		//// WEST
+		//{ 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,    0.0f, 1.0f, 0.0f },
+		//{ 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 0.0f,    0.0f, 0.0f, 0.0f },
 
-		// TOP
-		{ 0.0f, 1.0f, 0.0f,    0.0f, 1.0f, 1.0f,    1.0f, 1.0f, 1.0f },
-		{ 0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 1.0f, 0.0f },
+		//// TOP
+		//{ 0.0f, 1.0f, 0.0f,    0.0f, 1.0f, 1.0f,    1.0f, 1.0f, 1.0f },
+		//{ 0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 1.0f, 0.0f },
 
-		// BOTTOM
-		{ 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f },
-		{ 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f,    1.0f, 0.0f, 0.0f },
+		//// BOTTOM
+		//{ 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f },
+		//{ 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f,    1.0f, 0.0f, 0.0f },
 
-		};
+		//};
+
+		meshCube.LoadFromObjectFile("VideoShip.obj");
 
 		// Projection Matrix
 		float fNear = 0.1f;
@@ -190,6 +222,8 @@ public:
 		matRotX.m[2][2] = cosf(fTheta * 0.5f);
 		matRotX.m[3][3] = 1;
 
+		std::vector<triangle> vecTrianglesToRaster;
+
 		// Draw Triangles
 		for (auto tri : meshCube.tris)
 		{
@@ -207,9 +241,9 @@ public:
 
 			// Offset into the screen
 			triTranslated = triRotatedZX;
-			triTranslated.p[0].z = triRotatedZX.p[0].z + 3.0f;
-			triTranslated.p[1].z = triRotatedZX.p[1].z + 3.0f;
-			triTranslated.p[2].z = triRotatedZX.p[2].z + 3.0f;
+			triTranslated.p[0].z = triRotatedZX.p[0].z + 8.0f;
+			triTranslated.p[1].z = triRotatedZX.p[1].z + 8.0f;
+			triTranslated.p[2].z = triRotatedZX.p[2].z + 8.0f;
 
 			vec3d normal, line1, line2;
 			line1.x = triTranslated.p[1].x - triTranslated.p[0].x;
@@ -257,17 +291,29 @@ public:
 				triProjected.p[2].x *= 0.5f * (float)ScreenWidth();
 				triProjected.p[2].y *= 0.5f * (float)ScreenHeight();
 
-				// Rasterize triangle
-				FillTriangle(triProjected.p[0].x, triProjected.p[0].y,
-					triProjected.p[1].x, triProjected.p[1].y,
-					triProjected.p[2].x, triProjected.p[2].y,
-					triProjected.col);
-
-				DrawTriangle(triProjected.p[0].x, triProjected.p[0].y,
-					triProjected.p[1].x, triProjected.p[1].y,
-					triProjected.p[2].x, triProjected.p[2].y,
-					olc::BLACK);
+				vecTrianglesToRaster.push_back(triProjected);
 			}
+		}
+
+		sort(vecTrianglesToRaster.begin(), vecTrianglesToRaster.end(), [](triangle& t1, triangle& t2)
+		{
+				float z1 = (t1.p[0].z + t1.p[1].z + t1.p[2].z) / 3.0f;
+				float z2 = (t2.p[0].z + t2.p[1].z + t2.p[2].z) / 3.0f;
+				return z1 > z2;
+		});
+
+		for (auto& triProjected : vecTrianglesToRaster)
+		{
+			// Rasterize triangle
+			FillTriangle(triProjected.p[0].x, triProjected.p[0].y,
+				triProjected.p[1].x, triProjected.p[1].y,
+				triProjected.p[2].x, triProjected.p[2].y,
+				triProjected.col);
+
+			/*DrawTriangle(triProjected.p[0].x, triProjected.p[0].y,
+				triProjected.p[1].x, triProjected.p[1].y,
+				triProjected.p[2].x, triProjected.p[2].y,
+				olc::BLACK);*/
 		}
 
 		return true;
