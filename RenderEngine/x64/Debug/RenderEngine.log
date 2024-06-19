@@ -1,14 +1,8 @@
 ﻿  RenderEngine.cpp
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(263,44): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(263,23): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(262,44): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(262,23): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(261,56): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(261,35): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(268,44): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(268,23): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(267,44): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(267,23): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(266,56): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(266,35): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(310,43): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(310,22): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(309,43): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(309,22): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(308,55): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\ss4cr\source\repos\RenderEngine\RenderEngine\RenderEngine.cpp(308,34): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
   RenderEngine.vcxproj -> C:\Users\ss4cr\source\repos\RenderEngine\x64\Debug\RenderEngine.exe
